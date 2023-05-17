@@ -16,43 +16,71 @@ class Location(FlaskForm):
         'Input Address',
         validators=[DataRequired()]
     )
-    # radius = StringField(
-    #     'Search Radius',
-    #     validators=[DataRequired()]
-    # )
 
-myLocation = []
-myLoc = ""
-def setLocation(location):
-    myLocation.append(f"{location}")
-    myLoc = (f"{location}")
+# These are two versions of solving the same problem.
+#   totalStations stores a list of dictionaries, while
+#   stationInfo only stores one dictionary.
+#   totalStations does currently work, but stationInfo doesn't. The latter would be more efficient.
+totalStations = []
+stationInfo = {}
+## NearestStations API Setup ##
 
+url = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?'
 
+payload = {
+    'api_key' : 'nt85Bjlno2VSkWDsjD1HbbgCTlenN7QQJ6vKZWI4',
+    'location' : 'Marina+CA', # placeholder value the user can reassign
+    'fuel_type' : 'ELEC',
+    'limit' : '1'
+}
+
+def GetNearestStation(location):
+    payload['location'] = location
+    response = (requests.get(url, payload))
+    try:
+        myRequest = requests.get(url, payload)
+        data = myRequest.json()
+        myStation = data['fuel_stations'][0] 
+        print(myStation)
+        return myStation
+    except:
+        print('Request failed')
+
+def SetStationInfo(myStation):
+    totalStations.append(dict(
+        name = str(myStation['station_name']),
+        phone = str(myStation['station_phone']),
+        address = (f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
+        distance = (f"{myStation['distance']} mi ({myStation['distance_km']} km)")
+    ))
+
+    stationInfo = dict(
+        name = str(myStation['station_name']),
+        phone = str(myStation['station_phone']),
+        address = (f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
+        distance = (f"{myStation['distance']} mi ({myStation['distance_km']} km)")
+    )
+    # print(stationInfo)
+    return stationInfo
+
+    
+
+##############
 
 @app.route('/', methods=('GET','POST'))
 def index():
     myForm = Location()
     if myForm.validate_on_submit():
-        print("validated")
-        print(f"myForm Location data: {myForm.location.data}")
-        setLocation(myForm.location.data)
-        print(f"My Location: {myLocation}")
-        print(f"MyLoc: {myLoc}")
+        myStation = GetNearestStation(myForm.location.data)
+        SetStationInfo(myStation)
         return redirect('/location')
     return render_template('index.html', form=myForm)
 
 @app.route('/location', methods=('GET','POST'))
 def location():
-    return render_template('location.html', location=myLocation)
-
-
-
-@app.route('/navbar', methods=('GET','POST'))
-def navbar():
-    myForm = Location()
-    if myForm.validate_on_submit():
-        print("validated")
-    return render_template('navbar.html', form=myForm)
+    # myStation is the alternative that doesn't currently work. myStation's goal is to only use one dictionary,
+    # rather than append to a list of dictionaries like "totalStations" does 
+    return render_template('location.html', totalStations=totalStations, myStation=stationInfo)
 
 if __name__ == '__main__':
     app.run(debug=True)   
