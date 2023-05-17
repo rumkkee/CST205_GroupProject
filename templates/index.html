@@ -9,6 +9,12 @@
       .underline{
         text-decoration: underline;
       }
+      #imgId{
+        width: 150;
+        height: 200;
+        object-position: bottom center;
+        border: 2px solid black;
+      }
 
     </style>
       <charset="utf-8">
@@ -28,5 +34,11 @@
       {{ form.location(size=40) }}
       <input type="submit" value="Submit">
     </form>
+
+    <div>
+
+    </div>
+
   </body>
+  <img id ="imgId"src="{{url_for('static', filename='logo.png')}}" />
 </html>
