@@ -21,8 +21,10 @@ class Location(FlaskForm):
 #   totalStations stores a list of dictionaries, while
 #   stationInfo only stores one dictionary.
 #   totalStations does currently work, but stationInfo doesn't. The latter would be more efficient.
-totalStations = []
-stationInfo = {}
+# global totalStations
+# global stationInfo
+# totalStations = []
+# stationInfo = {}
 ## NearestStations API Setup ##
 
 url = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?'
@@ -46,22 +48,32 @@ def GetNearestStation(location):
     except:
         print('Request failed')
 
+
 def SetStationInfo(myStation):
+    global totalStations
+    global stationInfo
+    global mapAddress
+
+    totalStations = []
     totalStations.append(dict(
-        name = str(myStation['station_name']),
-        phone = str(myStation['station_phone']),
-        address = (f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
-        distance = (f"{myStation['distance']} mi ({myStation['distance_km']} km)")
+        name=str(myStation['station_name']),
+        phone=str(myStation['station_phone']),
+        address=(f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
+        distance=(f"{myStation['distance']} mi ({myStation['distance_km']} km)")
     ))
 
     stationInfo = dict(
-        name = str(myStation['station_name']),
-        phone = str(myStation['station_phone']),
-        address = (f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
-        distance = (f"{myStation['distance']} mi ({myStation['distance_km']} km)")
+        name=str(myStation['station_name']),
+        phone=str(myStation['station_phone']),
+        address=(f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
+        distance=(f"{myStation['distance']} mi ({myStation['distance_km']} km)")
     )
-    # print(stationInfo)
-    return stationInfo
+
+    mapAddress1 = str(myStation['street_address'] + ", " + myStation['city'] + " " + myStation['state'] + " (" + myStation['zip'] + ")")
+    mapAddress = mapAddress1.replace(" ", "+")
+    pprint(stationInfo)
+    pprint(totalStations)
+    pprint(mapAddress)
 
     
 
@@ -73,6 +85,7 @@ def index():
     if myForm.validate_on_submit():
         myStation = GetNearestStation(myForm.location.data)
         SetStationInfo(myStation)
+        
         return redirect('/location')
     return render_template('index.html', form=myForm)
 
@@ -80,7 +93,9 @@ def index():
 def location():
     # myStation is the alternative that doesn't currently work. myStation's goal is to only use one dictionary,
     # rather than append to a list of dictionaries like "totalStations" does 
-    return render_template('location.html', totalStations=totalStations, myStation=stationInfo)
+    pprint(stationInfo)
+    pprint(totalStations)
+    return render_template('location.html', totalStations=totalStations, myStation=stationInfo, mapAddress = mapAddress)
 
 if __name__ == '__main__':
     app.run(debug=True)   

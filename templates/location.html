@@ -21,15 +21,24 @@
     <h1> Electric Fuel Finder </h1>
     <div>
         <li class="list-group-item"> Through the Dictionary</li>
-        {% for station in totalStations %}
-            <li class="list-group-item"> Nearest Station's Name: {{station.name}}</li>
-            <li class="list-group-item"> Phone Number: {{station.phone}}</li>
-            <li class="list-group-item"> Address: {{station.address}}</li>
-            <li class="list-group-item"> Distance from Address: {{station.distance}}</li>
-        {% endfor %}
+        <!-- {% for station in totalStations %} -->
+            <li class="list-group-item"> Nearest Station's Name: {{myStation.name}}</li>
+            <li class="list-group-item"> Phone Number: {{myStation.phone}}</li>
+            <li class="list-group-item"> Address: {{myStation.address}}</li>
+            <li class="list-group-item"> Distance from Address: {{myStation.distance}}</li>
+        <!-- {% endfor %} -->
         
     </div>
-
+    <iframe
+    width="600"
+    height="450"
+    style="border:0"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"
+    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAfjGOJwCrGg-oI2ng67v_-GWQNJdWoa3Y
+      &q={{mapAddress}}">
+  </iframe>
     <div>
         <a href="{{url_for('index')}}" style="margin-top: 10%;"> Back to search </a>
     </div>
