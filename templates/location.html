@@ -5,6 +5,9 @@
       .centerLocal{
         text-align: center;
       }
+      .underline{
+        text-decoration: underline;
+      }
     </style>
       <charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,14 +20,19 @@
   <body class="centerLocal">
     <h1> Electric Fuel Finder </h1>
     <div>
-        <p> Inside Location html! </p>
-        <p>myLocation: {{ location }}</p>
+        <li class="list-group-item"> Through the Dictionary</li>
+        {% for station in totalStations %}
+            <li class="list-group-item"> Nearest Station's Name: {{station.name}}</li>
+            <li class="list-group-item"> Phone Number: {{station.phone}}</li>
+            <li class="list-group-item"> Address: {{station.address}}</li>
+            <li class="list-group-item"> Distance from Address: {{station.distance}}</li>
+        {% endfor %}
+        
     </div>
 
-    <a href="{{url_for('index')}}"> Back to search </a>
-
-    {% block content %}
-
-    {% endblock %}
+    <div>
+        <a href="{{url_for('index')}}" style="margin-top: 10%;"> Back to search </a>
+    </div>
+    
   </body>
 </html>
