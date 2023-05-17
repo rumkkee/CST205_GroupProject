@@ -2,7 +2,7 @@
 
 Contributors:
   Christian Barajas
-  David Gonzales
+  David Gonzalez
   Arturo Cesareo-Zacarias
 
 Class: CST 205
