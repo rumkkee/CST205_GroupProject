@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+      .centerLocal{
+        text-align: center;
+      }
+      .underline{
+        text-decoration: underline;
+      }
+    </style>
+      <charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>CST 205 Project</title>
+      <link href="index.css" rel="stylesheet">
+      {{ bootstrap.load_css() }}
+      <!-- this invokes a link to the bootstrap library -->
+  </head>
+
+  <body class="centerLocal">
+    <h1> Electric Fuel Finder </h1>
+    <div>
+        <li class="list-group-item"> Through the Dictionary</li>
+        {% for station in totalStations %}
+            <li class="list-group-item"> Nearest Station's Name: {{station.name}}</li>
+            <li class="list-group-item"> Phone Number: {{station.phone}}</li>
+            <li class="list-group-item"> Address: {{station.address}}</li>
+            <li class="list-group-item"> Distance from Address: {{station.distance}}</li>
+        {% endfor %}
+        
+    </div>
+
+    <div>
+        <a href="{{url_for('index')}}" style="margin-top: 10%;"> Back to search </a>
+    </div>
+    
+  </body>
+</html>
