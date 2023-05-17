@@ -17,16 +17,24 @@
       <!-- this invokes a link to the bootstrap library -->
   </head>
 
-  <body class="centerLocal">
+  <body class="centerLocal" style="background-color: #0048BA; color: #F5F5DC;">
     <h1> Electric Fuel Finder </h1>
     <div>
-        <li class="list-group-item"> Through the Dictionary</li>
+        <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Through the Dictionary</li>
         <!-- {% for station in totalStations %} -->
-            <li class="list-group-item"> Nearest Station's Name: {{myStation.name}}</li>
-            <li class="list-group-item"> Phone Number: {{myStation.phone}}</li>
-            <li class="list-group-item"> Address: {{myStation.address}}</li>
-            <li class="list-group-item"> Distance from Address: {{myStation.distance}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Nearest Station's Name: {{myStation.name}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Phone Number: {{myStation.phone}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Address: {{myStation.address}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Distance from Address: {{myStation.distance}}</li>
         <!-- {% endfor %} -->
+
+        <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Through the Dictionary</li>
+        {% for station in totalStations %}
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Nearest Station's Name: {{station.name}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Phone Number: {{station.phone}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Address: {{station.address}}</li>
+            <li class="list-group-item" style="background-color: #0048BA; color: #F5F5DC;"> Distance from Address: {{station.distance}}</li>
+        {% endfor %}
         
     </div>
     <iframe

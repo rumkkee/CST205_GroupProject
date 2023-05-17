@@ -9,6 +9,13 @@
       .underline{
         text-decoration: underline;
       }
+      #imgId{
+        width: 150;
+        height: 200;
+        object-position: bottom center;
+        border: 2px solid black;
+      }
+
     </style>
       <charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,9 +24,9 @@
       {{ bootstrap.load_css() }}
   </head>
 
-  <body class="centerLocal">
-    <h1> Electric Fuel Finder </h1>
-    <p id="bigger"> Enter a location to search for fuel: </p>
+  <body class="centerLocal" style="background-color: #0048BA; color: #F5F5DC;">
+    <h1 style="background-color: #0048BA; color: #F5F5DC;"> Electric Fuel Finder </h1>
+    <p id="bigger" style="background-color: #0048BA; color: #F5F5DC;"> Enter a location to search for fuel: </p>
 
     <form method="POST" action="/">
       {{ form.csrf_token }}
@@ -27,5 +34,11 @@
       {{ form.location(size=40) }}
       <input type="submit" value="Submit">
     </form>
+
+    <div>
+
+    </div>
+
   </body>
+  <img id ="imgId"src="{{url_for('static', filename='logo.png')}}" />
 </html>
