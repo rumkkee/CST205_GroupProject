@@ -20,14 +20,10 @@
   <body class="centerLocal">
     <h1> Electric Fuel Finder </h1>
     <div>
-        <li class="list-group-item"> Through the Dictionary</li>
-        {% for station in totalStations %}
             <li class="list-group-item"> Nearest Station's Name: {{station.name}}</li>
             <li class="list-group-item"> Phone Number: {{station.phone}}</li>
             <li class="list-group-item"> Address: {{station.address}}</li>
-            <li class="list-group-item"> Distance from Address: {{station.distance}}</li>
-        {% endfor %}
-        
+            <li class="list-group-item"> Distance from Address: {{station.distance}}</li>   
     </div>
 
     <div>
