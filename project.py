@@ -7,6 +7,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
+# NearestStationAPI implemented by Arturo
+# Google Map API implemented by Christian
+# CSS and images implemented by David
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'fuel_Finder_205'
 bootstrap = Bootstrap(app)
@@ -17,16 +21,7 @@ class Location(FlaskForm):
         validators=[DataRequired()]
     )
 
-# These are two versions of solving the same problem.
-#   totalStations stores a list of dictionaries, while
-#   stationInfo only stores one dictionary.
-#   totalStations does currently work, but stationInfo doesn't. The latter would be more efficient.
-# global totalStations
-# global stationInfo
-# totalStations = []
-# stationInfo = {}
 ## NearestStations API Setup ##
-
 url = 'https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?'
 
 payload = {
@@ -36,6 +31,8 @@ payload = {
     'limit' : '1'
 }
 
+#The GetNearestStation function takes in a location as a string, then sets that as the location in our payload.
+#It also calls the API with this redefined payload, and returns the requested data.
 def GetNearestStation(location):
     payload['location'] = location
     response = (requests.get(url, payload))
@@ -49,18 +46,11 @@ def GetNearestStation(location):
         print('Request failed')
 
 
+# The SetStationInfo function takes in the data of a station, and 
+# reassigns a global dictionary with specific info from the given station, such as it's name, phone, address, and distance from the given address.
 def SetStationInfo(myStation):
-    global totalStations
     global stationInfo
     global mapAddress
-
-    totalStations = []
-    totalStations.append(dict(
-        name=str(myStation['station_name']),
-        phone=str(myStation['station_phone']),
-        address=(f"{myStation['street_address']}, {myStation['city']} {myStation['state']} ({myStation['zip']})"),
-        distance=(f"{myStation['distance']} mi ({myStation['distance_km']} km)")
-    ))
 
     stationInfo = dict(
         name=str(myStation['station_name']),
@@ -72,10 +62,7 @@ def SetStationInfo(myStation):
     mapAddress1 = str(myStation['street_address'] + ", " + myStation['city'] + " " + myStation['state'] + " (" + myStation['zip'] + ")")
     mapAddress = mapAddress1.replace(" ", "+")
     pprint(stationInfo)
-    pprint(totalStations)
     pprint(mapAddress)
-
-    
 
 ##############
 
@@ -91,12 +78,8 @@ def index():
 
 @app.route('/location', methods=('GET','POST'))
 def location():
-    # myStation is the alternative that doesn't currently work. myStation's goal is to only use one dictionary,
-    # rather than append to a list of dictionaries like "totalStations" does 
     pprint(stationInfo)
-    pprint(totalStations)
-    return render_template('location.html', totalStations=totalStations, myStation=stationInfo, mapAddress = mapAddress)
+    return render_template('location.html', myStation=stationInfo, mapAddress = mapAddress)
 
 if __name__ == '__main__':
     app.run(debug=True)   
-
