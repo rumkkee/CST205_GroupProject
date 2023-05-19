@@ -29,3 +29,5 @@ We plan to add multiple other fuel sources other than just electricity in future
 revision of this code aswell as integrating usable maps in the location area.
 
 https://trello.com/b/Of2HGrAC/cst-205-python-project
+
+Our Project Slides: https://docs.google.com/presentation/d/1RzM-BXWIh8iO5ALDRV2O8rn2XMAa98STU6cS8uKVgtA/edit?usp=sharing
